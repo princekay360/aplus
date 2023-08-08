@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+ <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <link rel="stylesheet" href="{% static 'aplus_app/css/page.css' %}">
+     <link rel="stylesheet" href="{% static 'aplus_app/css/ananse.css' %}">
+     <link rel="stylesheet" href="{% static 'aplus_app/css/main.css' %}">
+     <link rel="stylesheet" href="{% static 'aplus_app/css/form.css' %}">
+     <link rel="stylesheet" href="{% static 'aplus_app/fa/allicons.css' %}">
+    <title>Staff|Login</title>
+</head>
+<body>
+<video class="body-vid" autoplay="true" loop="true" muted>
+    <source src="{% static 'aplus_app/vids/ani1.mp4' %}" type="video/mp4">
+</video>
+<div class="alt-body">
+    <div class="form-cont">
+        <form method="post" action="{% url 'staff_login' %}">
+            {% csrf_token %}
+            <div class="head">Staff Login</div>
+            <div class="form-inputs">
+                <input type="text" name="id" placeholder="Staff ID">
+                <input type="password" name="password" placeholder="Password">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="alt-logo fa-bounce">A<sup>+</sup>&nbsp;&nbsp;<span style="color:gold; border-radius: 6px; padding: 6px; border:1px solid gold; font-size:20px">Demo</span></div>
+
+</body>
+</html>

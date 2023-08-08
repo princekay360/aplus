@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load staff_ui %}
+{% load head_tag %}
+
+{% html_head_tag title="A+|Staff Home" %}
+
+<body>
+{% staff_app_navs active="home" %}
+<div onclick="closeForm(b=['form-admin'])" id="body-cover"></div>
+<div class="form-div" id="form-admin">
+    <div class="header">
+        <h4>Add Course</h4>
+    </div>
+    <div></div>
+
+        <br><br>
+    <form method="post" action="{% url 'staff_add_course' %}">
+    {% csrf_token %}
+
+    <input name="name" type="text" placeholder="Course Name" required/><br><br>
+    <input name="description" type="text" placeholder="Description" required/><br><br>
+    <input name="rec_level" type="text" placeholder="Recommended Level" required/><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+   </div>
+
+<div onclick="closeNav('lnd')" id="nav-wrapper"></div>
+<div style="margin-top: 90px"></div>
+
+<div  class="cont-090">
+        <h2 style="margin: 0 0 20px 30px">Welcome Back <i class="fa-solid fa-smile"></i></h2>
+        <h1 style="margin: 0 0 20px 30px">Mr. {{staff.name}}</h1>
+</div><br><br>
+<div class="cont-898">
+        <h3 style="margin: 0 0 20px 30px">My Courses <span onclick="openForm('form-admin')" style="float: right; font-size:17px; cursor:pointer">Add Course</span></h3>
+        <hr><BR>
+</div>
+<div class="cont-898-1">
+    <div style="display:block; margin: 0 0 0 30px"></div>
+            {% for course in staff.course_set.all %}
+                <div class="course">
+                    <span><b>Course ID:</b> {{course.id}}</span>
+                    <span><b>Course Name:</b> {{course.name}}</span>
+                    <span><b>Course Name:</b> {{course.get_total_students}}</span>
+                </div>
+            {% empty %}
+                <span>No course</span>
+            {% endfor %}
+    <div style="display:block; margin: 0 30px 0 0px"></div>
+</div>
+
+
+        <div style="display:block; margin: 280px 0 0 30px"></div>
+
+</body>
+<script src="{% static 'aplus_app/js/bodycover.js' %}"></script>
+<script src="{% static 'aplus_app/js/process.js' %}"></script>
+</html>

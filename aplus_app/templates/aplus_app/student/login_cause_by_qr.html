@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load head_tag %}
+
+{% html_head_tag title="Student Login" %}
+<body>
+<video class="body-vid" autoplay="true" loop="true" muted>
+    <source src="{% static 'aplus_app/vids/ani1.mp4' %}" type="video/mp4">
+</video>
+<div class="alt-body">
+    <div class="form-cont">
+        <form method="post" action="{% url 'student_login_cause_by_qr' room_id=room_id%}">
+            {% csrf_token %}
+            <div class="head" style="width:100%; text-align:center">Login to Attend Room: {{room.name}}</div>
+            <div class="form-inputs">
+                <input type="text" name="id" placeholder="Student ID">
+                <input type="password" name="password" placeholder="Password">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="alt-logo">A<sup>+</sup>&nbsp;&nbsp;<span style="color:gold; border-radius: 6px; padding: 6px; border:1px solid gold; font-size:20px">Demo</span>
+</div>
+
+</body>
+</html>

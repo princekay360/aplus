@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load custom_filters %}
+{% load student_ui %}
+{% load static %}
+{% load head_tag %}
+
+{% html_head_tag title="A+|Student" %}
+<body>
+{% app_navs active="home" %}
+<div onclick="closeForm(b=['form-admin', {% for room in me.group.room_set.all %} '{{room.id}}', {% endfor %}])" id="body-cover"></div>
+<div class="form-div" id="form-admin">
+    <div class="header">
+        <h4>Register Course</h4>
+    </div>
+    <div></div>
+
+        <br><br>
+    <form method="post" action="{% url 'student_register_course' %}">
+    {% csrf_token %}
+    <select name="course_id">
+        <option>Select Course</option>
+        {% for course in me.get_unregistered_courses %}
+            <option value="{{course.id}}">{{course.name}}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+   </div>
+{% for room in me.group.room_set.all %}
+<div class="form-div" id="{{room.id}}">
+    <div class="header">
+        <h4>Room: {{room.name}}</h4>
+    </div>
+    <div></div>
+    <form method="post" action="{% url 'student_attend_room' %}">
+    {% csrf_token %}
+    <input style="margin: 0 0 10px 0" type="text" placeholder="Enter Key to join room" name="key">
+    <input type="hidden" value="{{room.id}}" name="room_id">
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+   </div>
+{% endfor %}
+<div onclick="closeNav('lnd')" id="nav-wrapper"></div>
+,
+<div style="margin-top: 90px"></div>
+
+<div class="cont-090">
+        <h2 style="margin: 0 0 20px 30px">Welcome Back <i class="fa-solid fa-smile"></i></h2>
+        <h1 style="margin: 0 0 20px 30px">Mr. {{me.name}}</h1>
+</div><br>
+<div class="cont-898">
+        <h3 style="margin: 0 0 20px 30px">Open Room</h3>
+        <hr><BR>
+</div>
+
+   <div class="cont-898-1">
+       <div style="display:block; margin: 0 0 0 30px"></div>
+            {% for room in me.group.room_set.all %}
+                {% if room.status == 'Open' %}
+                    <div class="course">
+                        <div><b>Room Name:</b> {{room.name|truncatechars:15}}</div>
+                        <div><b>Course Name:</b> {{room.course.name|truncatechars:15}}</div>
+                        <div><b>Date Created:</b> {{room.date}}</div>
+                        <div><b>Status:</b> {{room.status}}</div>
+                        {% if room|has_student:me %}
+                            <div style="color:lime">You are present</div>
+                        {% else %}
+                            <div class="btn" onclick="openForm('{{room.id}}')">Join</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+ <div style="display:block; margin: 0 30px 0 0px"></div>
+
+        </div>
+<div class="cont-898">
+        <h3 style="margin: 0 0 20px 30px">Recent Rooms</h3>
+        <hr><BR>
+</div>
+<div class="cont-898-1">
+        <div style="display:block; margin: 0 0 0 30px"></div>
+            {% for room in me|student_get_recent_rooms:6 %}
+                <div class="course">
+                    <div><b>Room Name:</b> {{room.name}}</div>
+                    <div><b>Course Name:</b> {{room.course.name}}</div>
+                        <div><b>Date Created:</b> {{room.date}}</div>
+                    <div><b>Status:</b> {{room.status}}</div>
+                    {% if room|has_student:me %}
+                        <div>Joined:</b> <span style="color:lime">Yes</span></div>
+                    {% else %}
+                        <div>Joined:</b> <span style="color:red">No</span></div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <span>No room</span>
+            {% endfor %}
+ <div style="display:block; margin: 0 30px 0 0px"></div>
+        </div>
+
+<div class="cont-898">
+        <h3 style="margin: 0 0 20px 30px">My Courses <span onclick="openForm('form-admin')" style="float: right; font-size:17px; cursor:pointer">Register Course</span></h3>
+        <hr><BR>
+</div>
+<div class="cont-898-1">
+        <div style="display:block; margin: 0 0 0 30px"></div>
+            {% for course in me.get_registered_courses %}
+                <div class="course" onclick="window.open('{% url 'student_course' course_id=course.id %}', '_self')">
+                    <span><b>Course ID:</b> {{course.id}}</span>
+                    <span><b>Course Name:</b> {{course.name}}</span>
+                </div>
+            {% empty %}
+                <span>No course</span>
+            {% endfor %}
+    <div style="display:block; margin: 0 30px 0 0px"></div>
+
+        </div>
+
+
+
+</body>
+<script src="{% static 'aplus_app/js/bodycover.js' %}"></script>
+<script src="{% static 'aplus_app/js/process.js' %}"></script>
+
+<script>
+{% if attend_attempt_log.items %}
+    {% if attend_attempt_log.code == 2 %}
+        toast(msg="{{attend_attempt_log.msg}}", last=4000, bg="gold", fc="white")
+    {% elif attend_attempt_log.code == 1 %}
+        toast(msg="{{attend_attempt_log.msg}}", last=4000, bg="lime", fc="white")
+    {% else %}
+        toast(msg="{{attend_attempt_log.msg}}", last=4000, bg="red", fc="white")
+    {% endif %}
+{% endif %}
+</script>
+
+</html>

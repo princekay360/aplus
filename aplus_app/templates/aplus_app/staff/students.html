@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load staff_ui %}
+{% load head_tag %}
+
+{% html_head_tag title="A+|Staff" %}
+<body>
+
+{% staff_app_navs active="home" %}
+
+<div onclick="closeForm(b=['form-admin'])" id="body-cover"></div>
+
+       <div onclick="closeNav('lnd')" id="nav-wrapper"></div>
+
+
+<div style="margin-top: 90px"></div>
+
+<div class="cont-090">
+        <h3 style="margin: 0 0 20px 20px">Tip <i class="fa-solid fa-info-circle"></i></h3>
+        <div style="margin: 0 0 20px 20px">
+           All students registered to this system including those not registered to any of your courses are available for the Search<br>
+        </div>
+    <div style="margin: 0 0 20px 20px">
+            Search by <b>Name</b> Or <b>Index Number</b>
+    </div>
+</div><br>
+
+<div class="cont-898">
+    <input id="search_filter" style="width: 100%; height:3em; padding: 0 10px" type="search" placeholder="Search Student">
+</div>
+<div class="cont-898">
+    <select id="group_select">
+        <option id="all_student_opt">All</option>
+        {% for group in groups %}
+            <option id="{{group.id}}">{{group.name}}</option>
+        {% endfor %}
+    </select>
+    <select id="course_select">
+        <option id="any_course_opt">Any</option>
+    </select>
+    <br><div></div>
+</div>
+<div class="cont-898">
+    <hr>
+</div>
+<div class="cont-898-1">
+    <div style="display:block; margin: 0 0 0 30px"></div>
+     <div class="custom-table-001">
+        <div class="row-head">
+            <div class="cell music-title"><b>Full Name</b></div>
+            <div class="cell"><b>Index Number</b></div>
+            <div class="cell"><b>Group</b></div>
+            <div class="cell"><b>Current Level</b></div>
+        </div>
+        {% for student in students %}
+        <div class="row" onclick="window.open('{% url 'staff_student' student_id=student.id %}', '_self')">
+            <div class="cell music-title">{{ student.name }}</div>
+            <div class="cell">{{ student.id }}</div>
+            <div class="cell">{{ student.group.name }}</div>
+            <div class="cell">{{ student.level }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div style="display:block; margin: 0 30px 0 0px"></div>
+</div>
+
+
+
+<div style="display:block; margin: 280px 0 0 30px"></div>
+</body>
+<script src="{% static 'aplus_app/js/bodycover.js' %}"></script>
+<script src="{% static 'aplus_app/js/process.js' %}"></script>
+<!-- Add the following JavaScript code inside a <script> tag or in an external JavaScript file -->
+
+<script>
+    // Function to filter the student table based on selected options
+    function filterTable() {
+        // Get selected values from the dropdowns
+        const selectedGroup = document.getElementById("group_select").value;
+        const selectedCourse = document.getElementById("course_select").value;
+
+        // Get all rows in the student table (excluding the header row)
+        const rows = document.querySelectorAll(".custom-table-001 .row");
+
+        // Loop through each row and check if it matches the selected filters
+        for (const row of rows) {
+            const groupCell = row.querySelector(".cell:nth-child(3)").textContent.trim();
+            const courseCell = row.querySelector(".cell:nth-child(4)").textContent.trim();
+
+            // Hide the row if it doesn't match the selected filters
+            if ((selectedGroup !== "All" && groupCell !== selectedGroup) ||
+                (selectedCourse !== "Any" && courseCell !== selectedCourse)) {
+                row.style.display = "none";
+            } else {
+                row.style.display = "flex";
+            }
+        }
+    }
+
+    // Attach event listeners to the select elements
+    const groupSelect = document.getElementById("group_select");
+    const courseSelect = document.getElementById("course_select");
+
+    groupSelect.addEventListener("change", filterTable);
+    courseSelect.addEventListener("change", filterTable);
+
+    // Initially, call the filterTable function to show the default selected options
+    filterTable();
+</script>
+<script>
+  // Function to filter the table rows based on the search input
+  function searchFilterTableRows() {
+    const input = document.getElementById('search_filter');
+    const filterValue = input.value.toLowerCase();
+    const tableRows = document.querySelectorAll('.custom-table-001 .row');
+
+    tableRows.forEach(row => {
+      const indexNumberCell = row.querySelector('.cell:nth-child(1)');
+      const fullNameCell = row.querySelector('.music-title');
+
+      const indexNumber = indexNumberCell.textContent.toLowerCase();
+      const fullName = fullNameCell.textContent.toLowerCase();
+
+      if (indexNumber.includes(filterValue) || fullName.includes(filterValue)) {
+        row.style.display = 'flex';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  // Add event listener to the search input field
+  document.getElementById('search_filter').addEventListener('input', searchFilterTableRows);
+</script>
+
+
+</html>

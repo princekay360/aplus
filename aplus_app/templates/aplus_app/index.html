@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load head_tag %}
+{% html_head_tag title="A+" %}
+
+<style>
+    .dsd{
+        gap:40px;
+        display:flex;
+        background:transparent;
+        width:50%;
+        height:70%;
+        justify-self:center;
+        align-self:center;
+        justify-content:center;
+        align-items:center;
+    }
+
+    @media screen and (max-width:750px){
+        .dsd{
+            flex-direction: column;
+        }
+    }
+</style>
+
+<body>
+<video class="body-vid" autoplay="true" loop="true" muted>
+    <source src="{% static 'aplus_app/vids/ani1.mp4' %}" type="video/mp4">
+</video>
+<div class="alt-body">
+    <div class="dsd" style="">
+        <div onclick="window.open('{% url 'staff_login' %}', '_self')" style="background:#ffffffba; color:#11c1e4; gap:20px; flex-direction:column; height: 16em; width:16em; border-radius:10px; display:flex; justify-content:center; align-items:center;" >
+            <i class="far fa-user-lock" style="font-size:100px"></i>
+            <div style="font-size:30px">Staff</div>
+        </div>
+        <div onclick="window.open('{% url 'student_login' %}', '_self')" style="background:#ffffffba; color:#11c1e4; gap:20px; flex-direction:column; height: 16em; width:16em; border-radius:10px; display:flex; justify-content:center; align-items:center;" >
+            <i class="far fa-user" style="font-size:100px"></i>
+            <div style="font-size:30px">Student</div>
+        </div>
+    </div>
+
+</div>
+<div class="alt-logo fa-bounce">A<sup>+</sup>&nbsp;&nbsp;<span style="color:gold; border-radius: 6px; padding: 6px; border:1px solid gold; font-size:20px">Demo</span></div>
+
+</body>
+</html>

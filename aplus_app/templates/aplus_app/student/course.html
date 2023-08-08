@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load custom_filters %}
+{% load student_ui %}
+{% load static %}
+{% load head_tag %}
+
+{% html_head_tag title="A+|Student" %}
+<body>
+{% app_navs active="home" %}
+
+<div onclick="closeForm(b=['form-admin', {% for room in me.group.room_set.all %} '{{room.id}}' {% endfor %}])" id="body-cover"></div>
+<div class="form-div" id="form-admin">
+    <div class="header">
+        <h4>Register Course</h4>
+    </div>
+    <div></div>
+
+        <br><br>
+    <form method="post" action="{% url 'student_register_course' %}">
+    {% csrf_token %}
+    <select name="course_id">
+        <option>Select Course</option>
+        {% for course in me.get_unregistered_courses %}
+            <option value="{{course.id}}">{{course.name}}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+   </div>
+{% for room in me.group.room_set.all %}
+<div class="form-div" id="{{room.id}}">
+    <div class="header">
+        <h4>Room: {{room.name}}</h4>
+    </div>
+    <div></div>
+
+        <br><br>
+    <form method="post" action="{% url 'student_attend_room' %}">
+    {% csrf_token %}
+    <input type="text" placeholder="Enter Key to join room" name="key">
+    <input type="hidden" value="{{room.id}}" name="room_id">
+
+    <input type="submit" value="Submit">
+</form>
+
+   </div>
+{% endfor %}
+<div onclick="closeNav('lnd')" id="nav-wrapper"></div>
+
+
+<div style="margin-top: 90px"></div>
+
+<div class="cont-090">
+        <h2 style="margin: 0 0 20px 20px">Course &nbsp;&nbsp;&nbsp;<i class="fa-regular fa-book"></i></h2>
+        <h1 style="margin: 0 0 20px 20px">{{course.name}}</h1>
+</div><br>
+
+<div class="cont-090">
+        <div style="margin: 0 0 20px 20px"><b>Attendance:</b> {{ me|get_attendance:course}}</div>
+        <div style="margin: 0 0 20px 20px"><b>Points Gained:</b> {{ me|get_course_score:course}}</div>
+</div><br>
+
+</body>
+<script src="{% static 'aplus_app/js/bodycover.js' %}"></script>
+<script src="{% static 'aplus_app/js/process.js' %}"></script>
+
+<script>
+{% if attend_attempt_log.items %}
+    {% if attend_attempt_log.code == 2 %}
+        toast(msg="{{attend_attempt_log.msg}}", last=4000, bg="gold", fc="white")
+    {% elif attend_attempt_log.code == 1 %}
+        toast(msg="{{attend_attempt_log.msg}}", last=4000, bg="lime", fc="white")
+    {% else %}
+        toast(msg="{{attend_attempt_log.msg}}", last=4000, bg="red", fc="white")
+    {% endif %}
+{% endif %}
+</script>
+
+</html>

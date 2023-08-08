@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load staff_ui %}
+{% load head_tag %}
+{% load custom_filters %}
+
+{% html_head_tag title="A+|Staff Home" %}
+<body>
+{% staff_app_navs active="home" %}
+
+       <div onclick="closeNav('lnd')" id="nav-wrapper"></div>
+<div onclick="closeForm(b=['qrcode-div'])" id="body-cover"></div>
+<div class="form-div larger" id="qrcode-div">
+    <div class="header">
+        <div>Scan QR code to mark your attendance</div>
+    </div>
+    <div style="margin: -20px 0 0 0">
+        <div>Or Use Key: <h2>{{room.key}}</h2></div>
+    </div>
+    <div>
+        <img src="/media/{{room.qrcode}}">
+    </div>
+   </div>
+
+
+
+<div style="margin-top: 90px"></div>
+<div class="cont-090">
+        <div style="margin: 0 0 20px 30px; font-size:20px">Student &nbsp;&nbsp;<i class="fa-solid fa-user"></i></div>
+        <h1 style="margin: 0 0 20px 30px">Mr. {{student.name}}</h1>
+</div>
+<div  class="cont-090">
+        <div style="margin: 0 0 10px 20px">
+            <b>Student Name:</b> {{student.name}}
+        </div>
+        <div style="margin: 0 0 10px 20px">
+            <b>Index number:</b> {{student.id}}
+        </div>
+        <div style="margin: 0 0 10px 20px">
+            <b>Group:</b> {{student.group.name}}
+        </div>
+        <div style="margin: 0 0 10px 20px">
+            <b>Level</b>: {{student.level}}
+        </div>
+</div><br>
+
+<div class="cont-898">
+        <h3 style="margin: 0 0 20px 30px">Registered Courses (My courses)</h3>
+        <hr><BR>
+</div>
+
+{% for course in staff.course_set.all %}
+    {% if course|course_has_student:student %}
+        <div  class="cont-090">
+            <div style="margin: 0 0 20px 20px"><b>Course</b> &nbsp;&nbsp;<i class="fa-solid fa-book"></i></div>
+
+            <div style="margin: 0 0 10px 20px">
+                <b>Name:</b> {{ course.name }}
+            </div>
+            <div style="margin: 0 0 10px 20px">
+                <b>Attendance:</b> {{course|get_student_attendance:student}}
+            </div>
+            <div style="margin: 0 0 10px 20px">
+                <b>Total Points:</b> {{student|get_course_score:course}}
+            </div>
+
+        </div><br>
+    {% endif %}
+{% endfor %}
+
+
+        <div style="display:block; margin: 280px 0 0 30px"></div>
+
+</body>
+<script src="{% static 'aplus_app/js/bodycover.js' %}"></script>
+<script src="{% static 'aplus_app/js/process.js' %}"></script>
+
+
+</html>

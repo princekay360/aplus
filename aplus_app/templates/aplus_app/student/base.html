@@ -1,0 +1,39 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'aplus_app/fa/allicons.css' %}">
+
+<LeftNavDrawer id="lnd">
+            <NavListItems>
+                <ListItem onclick="window.open('{% url 'student_home' %}', '_self')" style="background-color: #c3c6d1">
+                    <Icon><i class="fa-light fa-gauge   "></i></Icon>
+                    <Name>Dashboard</Name>
+                </ListItem>
+            </NavListItems>
+        </LeftNavDrawer>
+<header class="grid-header">
+      <div class="logo">
+          <div onclick="openNav('lnd')">
+              <i class="fa-thin fa-bars" style="color:white"></i>
+          </div>
+          <div>
+              <b style="font-size:20px; color:white; margin-right:30px">A<sup>+</sup></b>
+              <span style="color:gold; border-radius: 6px; padding: 6px; border:1px solid gold;">Demo</span>
+          </div>
+      </div>
+      <div class="mid-div">
+              <div class="nav-btn" onclick="window.open('{% url 'student_home' %}', '_self')">
+                  <i class="fa-thin fa-gauge"></i>
+                  <span>Dashboard</span>
+              </div>
+      </div>
+      <div class="right">
+          <div class="dropdown" style="float:left;">
+              <div class="avatar">
+                    {{me_name_0}}
+              </div>
+              <div style="left: -113px; top: 39px;" class="dropdown-content">
+                <a href="#"><i class="fa-regular fa-user"></i><span>Profile</span></a>
+                <a href="{% url 'student_logout' %}"><i class="fa-regular fa-right-from-bracket"></i><span>Logout</span></a>
+              </div>
+            </div>
+      </div>
+</header>

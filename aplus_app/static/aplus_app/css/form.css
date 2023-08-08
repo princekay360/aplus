@@ -1,0 +1,84 @@
+.body-vid{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover
+}
+
+.body-vid source{
+    width:100%;
+    height:100%
+}
+
+.alt-body{
+    z-index:1;
+    display:grid;
+    position:fixed;
+    width:100%;
+    height:100%
+}
+
+.alt-body .form-cont{
+    align-self:center;
+    justify-self:center;
+    width: 23em;
+    height: 25em;
+    background: #ffffffba;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.alt-body .form-cont .head{
+    display: flex;
+    width: 100%;
+    height: 3em;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 21px
+}
+
+.alt-body .form-cont .form-inputs{
+    display: flex;
+    width: 100%;
+    height: 19em;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+ }
+
+.alt-body .form-cont .form-inputs input{
+    width: 80%;
+    height: 4em;
+    border: 1px solid #5c5cf2;
+    border-radius: 9px;
+    padding: 0 10px;
+    background: transparent;
+    color: #5c5cf2;
+}
+
+.alt-body .form-cont .form-inputs input[type="submit" i]{
+    width: 45%;
+    height: 4em;
+    border-radius: 9px;
+    padding: 0 10px;
+    background: #5c5cf2;
+    color: #ffffffba;
+    font-weight: bold;
+}
+
+
+.alt-logo{
+    position: fixed;
+    z-index: 1;
+    left: 20%;
+    font-size: 70px;
+    font-weight: bold;
+    color: #ffffffba;
+    display: flex;
+    align-items: center;
+}
